@@ -16,7 +16,11 @@ def tokenise(request: TokeniseRequest):
     tokenizer = get_tokenizer(model_name)
 
     if tokenizer is None:
-        return None
+        return {
+            "text": request.inputText,
+            "tokens": ["Unsupported Model"],
+            "tokenCount": 0
+        }
 
     encoding = tokenizer(request.inputText,
                          return_offsets_mapping=True,
@@ -37,6 +41,6 @@ def tokenise(request: TokeniseRequest):
 
     return {
         "text": request.inputText,
-        "tokens": tokens,
+        "tokens": token_strings,
         "tokenCount": len(tokens)
     }
