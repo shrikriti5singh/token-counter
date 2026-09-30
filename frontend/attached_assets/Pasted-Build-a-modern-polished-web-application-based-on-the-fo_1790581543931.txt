@@ -1,0 +1,100 @@
+Build a modern, polished web application based on the following API contract and UI requirements.
+Backend API
+There is an existing backend endpoint:
+POST /tokenise
+
+Request model:
+
+class TokeniseRequest(BaseModel):
+    inputText: str
+    modelName: str | None = None
+
+The endpoint is called like this:
+{
+  "inputText": "text entered by the user",
+  "modelName": "selected model"
+}
+
+It returns:
+{
+  "text": "the original input text",
+  "tokens": ["token1", "token2", "token3"],
+  "tokenCount": 3
+}
+
+The frontend must treat the backend response as the source of truth. Do not implement tokenization logic in the frontend.
+For now, make the backend base URL configurable through an environment variable rather than hard-coding it into the UI.
+
+UI
+Create a single-page application with a clean, minimal, developer-tool aesthetic.
+The main screen should have:
+
+A large text input area occupying most of the upper portion of the page.
+A model selector dropdown next to or above the main action.
+A prominent primary action button.
+A results area that initially remains empty/hidden.
+After the API request succeeds, show the total number of tokens prominently.
+Below the count, visually render every token returned by the API.
+Each token should appear as an individual visual element.
+Give consecutive tokens different colors so that token boundaries are immediately obvious.
+Preserve whitespace and special characters exactly as returned by the API.
+Tokens should wrap naturally onto multiple lines.
+Each token should have a subtle border/background and enough padding to make individual boundaries clear.
+Include the token index in a subtle way so that individual tokens can be inspected.
+Show useful loading and error states.
+Disable the action button while the request is in progress.
+Handle an empty input gracefully.
+Handle API errors gracefully.
+Visual direction
+Use a sophisticated developer-tool interface rather than a generic form.
+Think of the visual language of modern developer tools:
+
+Dark background.
+Large centered content area.
+Subtle borders.
+Rounded cards.
+Monospace typography for the token visualization.
+Muted secondary text.
+One strong accent color for interactive controls.
+Plenty of whitespace.
+Smooth but restrained hover/focus states.
+The token visualization should be the visual centerpiece of the application.
+For example, if the API returns:
+
+{
+  "tokens": ["Hello", " world", "!"],
+  "tokenCount": 3
+}
+
+the UI should visually distinguish:
+Hello world !
+
+with three different colors while preserving the leading space in " world".
+
+API integration
+Create a small, clean API client layer rather than putting the fetch logic throughout the UI.
+The request should be:
+
+POST /tokenise
+
+Content-Type: application/json
+
+{
+  "inputText": "...",
+  "modelName": "..."
+}
+
+Use the configured backend URL.
+Do not create a fake tokenization implementation or mock the API in the final application.
+
+Keep the frontend and API integration clean enough that the backend URL and available model names can easily be changed later.
+
+Important
+Do not assume or invent the tokenization algorithm.
+Do not calculate the token count on the client.
+
+Do not split the input text on whitespace.
+
+The backend's tokens array and tokenCount are authoritative.
+
+Build and run the application so I can immediately see the finished UI.
